@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Garuda Retouch Pro - Janmashtami Offer</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      text-align: center;
+      background: radial-gradient(circle, #1a1a3a 0%, #0d0d1a 100%);
+      color: #fff;
+      margin: 0;
+      padding: 15px;
+    }
+    .badge {
+      background: linear-gradient(45deg, #ff9900, #ff5500);
+      color: #fff;
+      font-weight: bold;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    h2 {
+      margin: 10px 0 4px;
+      color: #ffd700;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+      font-size: 24px;
+    }
+    .subtext {
+      color: #ccc;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .subtext del { color: #ff5555; }
+    
+    .wheel-box {
+      position: relative;
+      display: inline-block;
+      margin: 10px auto;
+    }
+    #wheel {
+      border-radius: 50%;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+      border: 4px solid #ffd700;
+    }
+    .pointer {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 26px solid #ff3b30;
+      z-index: 10;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+    .center-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px;
+      height: 48px;
+      background: #ffd700;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    button#spinBtn {
+      margin-top: 15px;
+      padding: 13px 40px;
+      font-size: 18px;
+      font-weight: 800;
+      background: linear-gradient(45deg, #ffd700, #ff9900);
+      color: #000;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 153, 0, 0.4);
+      transition: 0.2s;
+    }
+    button#spinBtn:disabled {
+      background: #444;
+      color: #888;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    .result-card {
+      display: none;
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      padding: 18px;
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      animation: popIn 0.5s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .result-card h3 {
+      margin: 0;
+      color: #ffd700;
+      font-size: 21px;
+    }
+    .price-tag {
+      font-size: 26px;
+      font-weight: 800;
+      color: #00ff88;
+      margin: 8px 0;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+    .input-box {
+      margin: 12px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 280px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .input-box input {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #ffd700;
+      background: #111;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      text-align: center;
+    }
+    .input-box input::placeholder { color: #888; }
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background-color: #25D366;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 13px 26px;
+      border-radius: 30px;
+      margin-top: 8px;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+      cursor: pointer;
+    }
+    .whatsapp-btn svg { width: 22px; height: 22px; fill: white; }
+  </style>
+</head>
+<body>
+
+  <div class="badge">🦚 Janmashtami Maha Offer 🦚</div>
+  <h2>Garuda Retouch Pro</h2>
+  <div class="subtext">Original Price: <del>₹1199</del> | Spin karke payein Special Round Figure Discount!</div>
+
+  <div class="wheel-box">
+    <div class="pointer"></div>
+    <canvas id="wheel" width="320" height="320"></canvas>
+    <div class="center-circle">🪶</div>
+  </div>
+
+  <br>
+  <button id="spinBtn" onclick="startSpin()">SPIN TO WIN</button>
+
+  <div class="result-card" id="resultBox">
+    <h3>🎉 Radhe Radhe! Badhai Ho! 🎉</h3>
+    <p style="margin: 8px 0; font-size: 15px; color: #ddd;">
+      Aapko mila hai <b>Garuda Retouch Pro</b> par flat <span id="winPercent" style="color:#ffd700; font-weight:bold;">0%</span> OFF!
+    </p>
+    <div class="price-tag" id="finalPrice">₹0 Only</div>
+    
+    <div class="input-box">
+      <input type="text" id="studioName" placeholder="Studio Name dalein" oninput="updateWaLink()">
+      <input type="tel" id="userPhone" placeholder="Apna WhatsApp Number dalein" oninput="updateWaLink()">
+    </div>
+
+    <a href="#" id="waLink" target="_blank" class="whatsapp-btn" onclick="return validateAndSend()">
+      <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+      Claim Offer on WhatsApp
+    </a>
+  </div>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) tg.expand();
+
+    // Aapka Web App URL set ho gaya hai
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0Emp2O_LXKIn3Nt9eBNYsyp4FkA0-k_NwMDYNKyow0US0qoBhbvIcNE9mPATip5DrUw/exec";
+    const MY_PHONE = "919405266745";
+    const ORIGINAL_PRICE = 1199;
+
+    const user = tg?.initDataUnsafe?.user || { id: "guest_" + Math.floor(Math.random()*1000), first_name: "Guest" };
+
+    const segments = ["30%", "40%", "50%", "60%", "70%", "80%", "90%", "95%"];
+    const colors = ["#e74c3c", "#e67e22", "#f39c12", "#27ae60", "#2980b9", "#8e44ad", "#d35400", "#16a085"];
+
+    const canvas = document.getElementById("wheel");
+    const ctx = canvas.getContext("2d");
+    const spinBtn = document.getElementById("spinBtn");
+    const resultBox = document.getElementById("resultBox");
+    const winPercentEl = document.getElementById("winPercent");
+    const finalPriceEl = document.getElementById("finalPrice");
+    const waLink = document.getElementById("waLink");
+    const studioNameInput = document.getElementById("studioName");
+    const userPhoneInput = document.getElementById("userPhone");
+
+    let currentRewardDetails = { percent: "50%", price: 600 };
+    let startAngle = 0;
+    const arc = (2 * Math.PI) / segments.length;
+
+    function drawWheel() {
+      for (let i = 0; i < segments.length; i++) {
+        const angle = startAngle + i * arc;
+        ctx.fillStyle = colors[i];
+        ctx.beginPath();
+        ctx.arc(160, 160, 150, angle, angle + arc, false);
+        ctx.lineTo(160, 160);
+        ctx.fill();
+
+        ctx.save();
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 16px sans-serif";
+        ctx.translate(160 + Math.cos(angle + arc / 2) * 105, 160 + Math.sin(angle + arc / 2) * 105);
+        ctx.rotate(angle + arc / 2 + Math.PI / 2);
+        ctx.fillText(segments[i], -ctx.measureText(segments[i]).width / 2, 0);
+        ctx.restore();
+      }
+    }
+    drawWheel();
+
+    function getPriceDetails(reward) {
+      if (reward === "50%") return { percent: "50%", price: 600 };
+      if (reward === "60%") return { percent: "60%", price: 500 };
+      return { percent: reward, price: 600 };
+    }
+
+    function updateWaLink() {
+      const sName = studioNameInput.value.trim() || "[Studio Name]";
+      const uPhone = userPhoneInput.value.trim() || "[Phone Number]";
+
+      const waMsg = encodeURIComponent(
+        `Radhe Radhe Sir! 🙏\n\n` +
+        `Mujhe Janmashtami Offer Spin Wheel me *Garuda Retouch Pro* par *${currentRewardDetails.percent} DISCOUNT* mila hai!\n\n` +
+        `🏷️ Original Price: Rs.1199\n` +
+        `🎁 Mera Offer Price: *Rs.${currentRewardDetails.price} Only*\n` +
+        `📸 Studio Name: ${sName}\n` +
+        `📱 WhatsApp Number: ${uPhone}\n\n` +
+        `Mujhe ye software activate karwana hai. Kripya payment link ya QR code bhejein.`
+      );
+
+      waLink.href = `https://wa.me/${MY_PHONE}?text=${waMsg}`;
+    }
+
+    function validateAndSend() {
+      const sName = studioNameInput.value.trim();
+      const uPhone = userPhoneInput.value.trim();
+
+      if (!sName) {
+        alert("Kripya apna Studio Name dalein!");
+        studioNameInput.focus();
+        return false;
+      }
+      if (!uPhone || uPhone.length < 10) {
+        alert("Kripya apna 10 digit WhatsApp Number dalein!");
+        userPhoneInput.focus();
+        return false;
+      }
+      updateWaLink();
+
+      fetch(`${SCRIPT_URL}?action=save&userId=${user.id}&studio=${encodeURIComponent(sName)}&phone=${encodeURIComponent(uPhone)}&reward=${currentRewardDetails.percent} (Rs.${currentRewardDetails.price})`);
+      return true;
+    }
+
+    // Google Sheet Check: User already spun?
+    fetch(`${SCRIPT_URL}?userId=${user.id}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "already_spun") {
+          showResult(data.reward.split(" ")[0] || "50%", false);
+        }
+      }).catch(() => {});
+
+    // 60% probability -> 50% OFF (₹600)
+    // 40% probability -> 60% OFF (₹500)
+    function pickOutcome() {
+      const weightedList = [
+        { item: "50%", weight: 60 },
+        { item: "60%", weight: 40 },
+        { item: "30%", weight: 0 },
+        { item: "40%", weight: 0 },
+        { item: "70%", weight: 0 },
+        { item: "80%", weight: 0 },
+        { item: "90%", weight: 0 },
+        { item: "95%", weight: 0 }
+      ];
+
+      const pool = [];
+      weightedList.forEach(obj => {
+        for (let i = 0; i < obj.weight; i++) pool.push(obj.item);
+      });
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    function showResult(reward, isNew = true) {
+      spinBtn.disabled = true;
+      currentRewardDetails = getPriceDetails(reward);
+
+      winPercentEl.innerText = currentRewardDetails.percent;
+      finalPriceEl.innerText = `₹${currentRewardDetails.price} Only (₹${ORIGINAL_PRICE} ki jagah)`;
+      
+      updateWaLink();
+      resultBox.style.display = "block";
+    }
+
+    function startSpin() {
+      spinBtn.disabled = true;
+      const targetReward = pickOutcome();
+      const targetIndex = segments.indexOf(targetReward);
+
+      const targetAngleDeg = 270 - (targetIndex * (360 / segments.length) + (360 / segments.length) / 2);
+      const rotations = 6 * 360; 
+      const finalAngle = rotations + targetAngleDeg;
+
+      let currentDeg = 0;
+      const duration = 4500;
+      const startTime = performance.now();
+
+      function animate(time) {
+        let elapsed = time - startTime;
+        let progress = Math.min(elapsed / duration, 1);
+        let easeOut = 1 - Math.pow(1 - progress, 3);
+
+        currentDeg = easeOut * finalAngle;
+        startAngle = (currentDeg * Math.PI) / 180;
+        ctx.clearRect(0, 0, 320, 320);
+        drawWheel();
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          showResult(targetReward, true);
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+  </script>
+</body>
+</html>
