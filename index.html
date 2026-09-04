@@ -182,7 +182,6 @@
 <body>
 
   <div class="container">
-    <!-- Top Poster Banner -->
     <img src="banner.png" alt="Garuda Retouch Pro Janmashtami Offer" class="poster-img" onerror="this.style.display='none'">
 
     <div class="badge">🦚 Lucky Discount Wheel 🦚</div>
@@ -219,8 +218,16 @@
   </div>
 
   <script>
-    const MY_PHONE = "919405266745"; // Aapka WhatsApp number
+    // Aapka naya Web App URL integrate ho gaya hai
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyEXF024w006d8PceIwqs-7DIaECENXpykbKJokkYlmoMH2mIZ3gOzxTuQM5BOI7VnEow/exec";
+    const MY_PHONE = "919405266745";
     const ORIGINAL_PRICE = 1199;
+
+    let localUserId = localStorage.getItem("grp_user_id");
+    if (!localUserId) {
+      localUserId = "user_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+      localStorage.setItem("grp_user_id", localUserId);
+    }
 
     const segments = ["30%", "40%", "50%", "60%", "70%", "80%", "90%", "95%"];
     const colors = ["#e74c3c", "#e67e22", "#f39c12", "#27ae60", "#2980b9", "#8e44ad", "#d35400", "#16a085"];
@@ -298,6 +305,9 @@
         return false;
       }
       updateWaLink();
+
+      // Lead Details Google Sheet me final update karega
+      fetch(`${SCRIPT_URL}?action=save&userId=${localUserId}&studio=${encodeURIComponent(sName)}&phone=${encodeURIComponent(uPhone)}&reward=${currentRewardDetails.percent} (Rs.${currentRewardDetails.price})`, { mode: 'no-cors' });
       return true;
     }
 
@@ -311,7 +321,7 @@
       }
     });
 
-    // 60% chance for 50% (Rs. 600), 40% chance for 60% (Rs. 500)
+    // Probability: 60% chance Rs.600, 40% chance Rs.500
     function pickOutcome() {
       const weightedList = [
         { item: "50%", weight: 60 },
@@ -343,6 +353,8 @@
 
       if (isNew) {
         localStorage.setItem("grp_janmashtami_reward", reward);
+        // Spin hote hi Google Sheet me initial entry save hogi taaki total count track ho sake
+        fetch(`${SCRIPT_URL}?action=save&userId=${localUserId}&studio=Spin_Completed&phone=Pending_WhatsApp&reward=${currentRewardDetails.percent} (Rs.${currentRewardDetails.price})`, { mode: 'no-cors' });
       }
     }
 
